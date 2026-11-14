@@ -14,7 +14,7 @@ import {
 type Props = {};
 
 const FPS = 30;
-const TOTAL_DETIK = 60;
+const TOTAL_DETIK = 49;
 const BIRU = "#38bdf8";
 const HIJAU = "#22c55e";
 const MERAH = "#f87171";
@@ -132,29 +132,29 @@ const Centang: React.FC<{ ukuran?: number; warna?: string }> = ({
   </svg>
 );
 
-// 1. Hook
+// 1. Hook (0 - 3.95 s)
 const Hook: React.FC = () => {
   const { t, pop } = useWaktu(0);
-  const lupa = interpolate(t, [4.9, 5.6], [1, 0.25], {
+  const lupa = interpolate(t, [3.3, 3.9], [1, 0.25], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
   return (
     <div style={{ textAlign: "center" }}>
-      <Muncul p={pop(0.2)} style={{ fontSize: 56, color: "#cbd5e1" }}>
+      <Muncul p={pop(0.05)} style={{ fontSize: 56, color: "#cbd5e1" }}>
         Pernah nggak sih,
       </Muncul>
-      <Muncul p={pop(1.52)} style={{ fontSize: 96, fontWeight: 800, marginTop: 16 }}>
-        capek-capek belajar...
+      <Muncul p={pop(1.1)} style={{ fontSize: 96, fontWeight: 800, marginTop: 16 }}>
+        capek-capek belajar,
       </Muncul>
       <Muncul
-        p={pop(4.21)}
+        p={pop(2.82)}
         style={{
           fontSize: 96,
           fontWeight: 800,
           color: MERAH,
           marginTop: 24,
-          opacity: lupa * Math.min(1, pop(4.21) * 1.5),
+          opacity: lupa * Math.min(1, pop(2.82) * 1.5),
         }}
       >
         tapi besoknya lupa?
@@ -163,9 +163,9 @@ const Hook: React.FC = () => {
   );
 };
 
-// 2. Masalah
+// 2. Masalah (3.95 - 7.9 s)
 const Masalah: React.FC = () => {
-  const { pop } = useWaktu(5.83);
+  const { pop } = useWaktu(3.95);
   const item = (teks: string, at: number, rot: number, warna?: string) => (
     <Muncul
       p={pop(at)}
@@ -182,43 +182,43 @@ const Masalah: React.FC = () => {
   );
   return (
     <div style={{ display: "flex", gap: 48, alignItems: "center" }}>
-      {item("Catatan berantakan", 6.1, -4)}
-      {item("Materi numpuk", 7.72, 3)}
-      {item("Ujian makin dekat", 8.91, -2, AMBER)}
+      {item("Catatan berantakan", 4.18, -4)}
+      {item("Materi numpuk", 5.43, 3)}
+      {item("Ujian makin dekat", 6.73, -2, AMBER)}
     </div>
   );
 };
 
-// 3. Brand
+// 3. Brand (7.9 - 12.55 s)
 const Brand: React.FC = () => {
-  const { pop } = useWaktu(10.2);
+  const { pop } = useWaktu(7.9);
   return (
     <div style={{ textAlign: "center" }}>
-      <Muncul p={pop(10.37)} style={{ fontSize: 56, color: "#cbd5e1" }}>
+      <Muncul p={pop(8.19)} style={{ fontSize: 56, color: "#cbd5e1" }}>
         Kenalin,
       </Muncul>
       <Muncul
-        p={pop(10.95)}
+        p={pop(8.86)}
         style={{
           fontSize: 190,
           fontWeight: 900,
           color: BIRU,
           letterSpacing: 6,
-          transform: `scale(${0.8 + 0.2 * pop(10.95)})`,
+          transform: `scale(${0.8 + 0.2 * pop(8.86)})`,
         }}
       >
         EXAMBRE
       </Muncul>
-      <Muncul p={pop(12.06)} style={{ fontSize: 56, fontWeight: 600, marginTop: 8 }}>
+      <Muncul p={pop(9.81)} style={{ fontSize: 56, fontWeight: 600, marginTop: 8 }}>
         Satu aplikasi untuk latihan soal apa pun
       </Muncul>
     </div>
   );
 };
 
-// 4. Ulang soal sampai dikuasai
+// 4. Ulang soal sampai dikuasai (12.55 - 19.38 s)
 const Ulang: React.FC = () => {
-  const { t, pop } = useWaktu(15.1);
+  const { t, pop } = useWaktu(12.55);
   const kartuSoal = (label: string, at: number, benar: boolean) => (
     <Muncul p={pop(at)} style={{ ...kartu, width: 420, textAlign: "center" }}>
       <div style={{ fontSize: 40, fontWeight: 700, marginBottom: 20 }}>{label}</div>
@@ -227,13 +227,13 @@ const Ulang: React.FC = () => {
   );
   return (
     <div style={{ textAlign: "center" }}>
-      <Muncul p={pop(15.23)} style={{ fontSize: 56, fontWeight: 700, marginBottom: 48 }}>
+      <Muncul p={pop(12.66)} style={{ fontSize: 56, fontWeight: 700, marginBottom: 48 }}>
         Soal yang salah muncul lagi
       </Muncul>
       <div style={{ display: "flex", gap: 40, justifyContent: "center" }}>
-        {kartuSoal("Soal salah", 15.23, false)}
-        {kartuSoal("Muncul lagi", 16.0, false)}
-        {kartuSoal("Muncul lagi", 17.33, t >= 18.3)}
+        {kartuSoal("Soal salah", 12.66, false)}
+        {kartuSoal("Muncul lagi", 13.5, false)}
+        {kartuSoal("Muncul lagi", 14.45, t >= 15.7)}
       </div>
       <div
         style={{
@@ -245,15 +245,15 @@ const Ulang: React.FC = () => {
           height: 90,
         }}
       >
-        {t >= 19.56 && (
-          <Muncul p={pop(19.56)}>
+        {t >= 16.63 && (
+          <Muncul p={pop(16.63)}>
             <Chip warna={AMBER} besar>
               Stabil
             </Chip>
           </Muncul>
         )}
-        {t >= 21.06 && (
-          <Muncul p={pop(21.06)} style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        {t >= 18.0 && (
+          <Muncul p={pop(18.0)} style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <Centang />
             <Chip warna={HIJAU} besar>
               Dikuasai
@@ -265,14 +265,14 @@ const Ulang: React.FC = () => {
   );
 };
 
-// 5. Simulasi ujian
+// 5. Simulasi ujian (19.38 - 24.35 s)
 const Simulasi: React.FC = () => {
-  const { t, pop } = useWaktu(22.55);
-  const sisa = Math.max(0, 3600 - Math.floor((t - 22.71) * 40));
+  const { t, pop } = useWaktu(19.38);
+  const sisa = Math.max(0, 3600 - Math.floor((t - 19.7) * 40));
   const mm = String(Math.floor(sisa / 60)).padStart(2, "0");
   const ss = String(sisa % 60).padStart(2, "0");
   const terjawab = Math.floor(
-    interpolate(t, [24.2, 29], [0, 22], {
+    interpolate(t, [21.8, 23.8], [0, 22], {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
     })
@@ -294,7 +294,7 @@ const Simulasi: React.FC = () => {
   );
   return (
     <div style={{ display: "flex", gap: 48, alignItems: "stretch" }}>
-      <Muncul p={pop(22.71)} style={{ ...kartu, textAlign: "center", width: 440 }}>
+      <Muncul p={pop(19.54)} style={{ ...kartu, textAlign: "center", width: 440 }}>
         <div style={{ fontSize: 30, color: "#cbd5e1" }}>Sisa waktu</div>
         <div
           style={{
@@ -305,7 +305,7 @@ const Simulasi: React.FC = () => {
           }}
         >{`${mm}:${ss}`}</div>
       </Muncul>
-      <Muncul p={pop(23.96)} style={{ ...kartu, width: 560 }}>
+      <Muncul p={pop(21.8)} style={{ ...kartu, width: 560 }}>
         <div style={{ fontSize: 30, color: "#cbd5e1", marginBottom: 20 }}>
           Navigasi nomor
         </div>
@@ -330,21 +330,21 @@ const Simulasi: React.FC = () => {
           ))}
         </div>
       </Muncul>
-      <Muncul p={pop(26.09)} style={{ ...kartu, width: 520 }}>
+      <Muncul p={pop(23.0)} style={{ ...kartu, width: 520 }}>
         <div style={{ fontSize: 30, color: "#cbd5e1", marginBottom: 24 }}>
           Hasil per kategori
         </div>
-        {bar("Kategori A", 82, 26.5)}
-        {bar("Kategori B", 64, 27.3)}
-        {bar("Kategori C", 91, 28.1)}
+        {bar("Kategori A", 82, 23.2)}
+        {bar("Kategori B", 64, 23.5)}
+        {bar("Kategori C", 91, 23.8)}
       </Muncul>
     </div>
   );
 };
 
-// 6. Input soal
+// 6. Input soal (24.35 - 30.75 s)
 const InputSoal: React.FC = () => {
-  const { pop } = useWaktu(29.7);
+  const { pop } = useWaktu(24.35);
   const opsi = (judul: string, sub: string, at: number, warna: string) => (
     <Muncul
       p={pop(at)}
@@ -356,47 +356,50 @@ const InputSoal: React.FC = () => {
   );
   return (
     <div style={{ textAlign: "center" }}>
-      <Muncul p={pop(29.98)} style={{ fontSize: 72, fontWeight: 800, marginBottom: 56 }}>
+      <Muncul p={pop(24.49)} style={{ fontSize: 72, fontWeight: 800, marginBottom: 56 }}>
         Input soal cepat
       </Muncul>
       <div style={{ display: "flex", gap: 40 }}>
-        {opsi("Tempel", "dari tryout", 31.43, BIRU)}
-        {opsi("Scan foto", "soal dari foto", 32.87, AMBER)}
-        {opsi("Pembahasan AI", "AI yang membuatkan", 34.0, HIJAU)}
+        {opsi("Tempel", "dari tryout", 26.18, BIRU)}
+        {opsi("Scan foto", "soal dari foto", 27.34, AMBER)}
+        {opsi("Pembahasan AI", "AI yang membuatkan", 28.46, HIJAU)}
       </div>
     </div>
   );
 };
 
-// 7. Catatan jadi soal + statistik
+// 7. Catatan jadi soal + statistik (30.75 - 36.43 s)
 const CatatanStatistik: React.FC = () => {
-  const { pop } = useWaktu(36.35);
-  const persen = 72 * Math.min(1, pop(41.3));
+  const { pop } = useWaktu(30.75);
+  const persen = 72 * Math.min(1, pop(35.5));
   const lingkar = 2 * Math.PI * 70;
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 70, alignItems: "center" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
-        <Muncul p={pop(36.52)} style={{ ...kartu, fontSize: 48, fontWeight: 700 }}>
+        <Muncul p={pop(30.88)} style={{ ...kartu, fontSize: 48, fontWeight: 700 }}>
           Catatan
         </Muncul>
-        <Muncul p={pop(37.3)} style={{ fontSize: 80, color: BIRU }}>
+        <Muncul p={pop(31.6)} style={{ fontSize: 80, color: BIRU }}>
           →
         </Muncul>
         <Muncul
-          p={pop(37.8)}
+          p={pop(32.0)}
           style={{ ...kartu, fontSize: 48, fontWeight: 700, borderColor: BIRU }}
         >
           Soal
         </Muncul>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 60 }}>
-        <Muncul p={pop(39.26)} style={{ fontSize: 64, fontWeight: 800 }}>
+        <Muncul p={pop(33.32)} style={{ fontSize: 64, fontWeight: 800 }}>
           Statistik
         </Muncul>
-        <Muncul p={pop(40.4)} style={{ ...kartu, fontSize: 44, fontWeight: 700, borderColor: MERAH }}>
+        <Muncul
+          p={pop(34.8)}
+          style={{ ...kartu, fontSize: 44, fontWeight: 700, borderColor: MERAH }}
+        >
           Kelemahan
         </Muncul>
-        <Muncul p={pop(41.3)} style={{ ...kartu, display: "flex", alignItems: "center", gap: 28 }}>
+        <Muncul p={pop(35.5)} style={{ ...kartu, display: "flex", alignItems: "center", gap: 28 }}>
           <svg width={170} height={170} viewBox="0 0 170 170">
             <circle cx={85} cy={85} r={70} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={16} />
             <circle
@@ -418,9 +421,9 @@ const CatatanStatistik: React.FC = () => {
   );
 };
 
-// 8. Privasi
+// 8. Privasi (36.43 - 42.2 s)
 const Privasi: React.FC = () => {
-  const { pop } = useWaktu(42.9);
+  const { pop } = useWaktu(36.43);
   const baris = (teks: string, at: number) => (
     <Muncul
       p={pop(at)}
@@ -440,39 +443,39 @@ const Privasi: React.FC = () => {
   );
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
-      <Muncul p={pop(43.18)} style={{ fontSize: 60, color: "#cbd5e1", marginBottom: 16 }}>
+      <Muncul p={pop(36.54)} style={{ fontSize: 60, color: "#cbd5e1", marginBottom: 16 }}>
         Yang paling penting
       </Muncul>
-      {baris("Tanpa akun", 45.11)}
-      {baris("Data tersimpan di perangkatmu", 45.75)}
-      {baris("Latihan tetap bisa offline", 48.64)}
+      {baris("Tanpa akun", 37.99)}
+      {baris("Data tersimpan di perangkatmu", 38.84)}
+      {baris("Latihan tetap bisa offline", 40.4)}
     </div>
   );
 };
 
-// 9. Penutup
+// 9. Penutup (42.2 - 49 s)
 const Penutup: React.FC = () => {
-  const { pop } = useWaktu(50.87);
+  const { pop } = useWaktu(42.2);
   return (
     <div style={{ textAlign: "center" }}>
       <Muncul
-        p={pop(51.03)}
+        p={pop(42.36)}
         style={{ fontSize: 170, fontWeight: 900, color: BIRU, letterSpacing: 6 }}
       >
         EXAMBRE
       </Muncul>
-      <Muncul p={pop(52.18)} style={{ fontSize: 68, fontWeight: 700 }}>
+      <Muncul p={pop(43.32)} style={{ fontSize: 68, fontWeight: 700 }}>
         Belajar lebih cerdas,
       </Muncul>
-      <Muncul p={pop(53.84)} style={{ fontSize: 68, fontWeight: 700, color: AMBER }}>
+      <Muncul p={pop(44.45)} style={{ fontSize: 68, fontWeight: 700, color: AMBER }}>
         bukan lebih lama.
       </Muncul>
-      <Muncul p={pop(55.46)} style={{ marginTop: 56 }}>
+      <Muncul p={pop(45.73)} style={{ marginTop: 56 }}>
         <Chip warna={HIJAU} besar>
           Coba sekarang
         </Chip>
       </Muncul>
-      <Muncul p={pop(57.03)} style={{ fontSize: 44, color: "#cbd5e1", marginTop: 24 }}>
+      <Muncul p={pop(46.59)} style={{ fontSize: 44, color: "#cbd5e1", marginTop: 24 }}>
         Link di bio
       </Muncul>
     </div>
@@ -497,15 +500,15 @@ export const MyComponent: React.FC<Props> = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       <Audio src={staticFile("vo.mp3")} />
-      <Adegan mulai={0} selesai={5.83}><Hook /></Adegan>
-      <Adegan mulai={5.83} selesai={10.2}><Masalah /></Adegan>
-      <Adegan mulai={10.2} selesai={15.1}><Brand /></Adegan>
-      <Adegan mulai={15.1} selesai={22.55}><Ulang /></Adegan>
-      <Adegan mulai={22.55} selesai={29.7}><Simulasi /></Adegan>
-      <Adegan mulai={29.7} selesai={36.35}><InputSoal /></Adegan>
-      <Adegan mulai={36.35} selesai={42.9}><CatatanStatistik /></Adegan>
-      <Adegan mulai={42.9} selesai={50.87}><Privasi /></Adegan>
-      <Adegan mulai={50.87} selesai={TOTAL_DETIK}><Penutup /></Adegan>
+      <Adegan mulai={0} selesai={3.95}><Hook /></Adegan>
+      <Adegan mulai={3.95} selesai={7.9}><Masalah /></Adegan>
+      <Adegan mulai={7.9} selesai={12.55}><Brand /></Adegan>
+      <Adegan mulai={12.55} selesai={19.38}><Ulang /></Adegan>
+      <Adegan mulai={19.38} selesai={24.35}><Simulasi /></Adegan>
+      <Adegan mulai={24.35} selesai={30.75}><InputSoal /></Adegan>
+      <Adegan mulai={30.75} selesai={36.43}><CatatanStatistik /></Adegan>
+      <Adegan mulai={36.43} selesai={42.2}><Privasi /></Adegan>
+      <Adegan mulai={42.2} selesai={TOTAL_DETIK}><Penutup /></Adegan>
     </AbsoluteFill>
   );
 };
