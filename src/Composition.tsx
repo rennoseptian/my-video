@@ -5,6 +5,7 @@ import {
   CalculateMetadataFunction,
   Composition,
   Easing,
+  Img,
   Sequence,
   continueRender,
   delayRender,
@@ -674,7 +675,7 @@ const Masalah: React.FC = () => {
 
 /* ---------------- elemen mini UI yang melayang ---------------- */
 const MINI = [
-  { x: 70, y: 90, r: -6, k: "soal" },
+  { x: 40, y: 90, r: -6, k: "soal" },
   { x: 1430, y: 100, r: 5, k: "skor" },
   { x: 110, y: 790, r: 4, k: "xp" },
   { x: 1480, y: 820, r: -5, k: "dikuasai" },
@@ -783,6 +784,22 @@ const Logo: React.FC<{ t: number; at: number; size: number }> = ({ t, at, size }
   </div>
 );
 
+const LogoIkon: React.FC<{ t: number; at: number; size: number }> = ({ t, at, size }) => {
+  const p = t < at ? 0 : spring({ frame: Math.round((t - at) * FPS), fps: FPS, config: { damping: 12 } });
+  return (
+    <Img
+      src={staticFile("logo-exambre.png")}
+      style={{
+        width: size,
+        height: size,
+        opacity: Math.min(1, p * 1.5),
+        transform: `scale(${0.4 + 0.6 * p}) rotate(${(1 - p) * -25}deg)`,
+        filter: "drop-shadow(0 0 40px rgba(65,103,245,0.6))",
+      }}
+    />
+  );
+};
+
 /* ================= 3. BRAND (7.9 - 12.55 s) ================= */
 const Brand: React.FC = () => {
   const { t, pop } = useWaktu(7.9);
@@ -793,7 +810,10 @@ const Brand: React.FC = () => {
         <div style={{ fontSize: 56, color: "#cbd5e1", marginBottom: 12, opacity: Math.min(1, pop(8.19) * 1.5), transform: `translateY(${(1 - pop(8.19)) * 40}px)` }}>
           Kenalin,
         </div>
-        <Logo t={t} at={8.86} size={220} />
+        <div style={{ display: "flex", alignItems: "center", gap: 44 }}>
+          <LogoIkon t={t} at={8.86} size={200} />
+          <Logo t={t} at={8.9} size={190} />
+        </div>
         <div
           style={{
             fontSize: 58,
@@ -1466,7 +1486,10 @@ const Penutup: React.FC = () => {
     <>
       <Melayang t={t} at={43.3} redup={0.55} />
       <Tengah>
-        <Logo t={t} at={42.36} size={190} />
+        <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
+          <LogoIkon t={t} at={42.36} size={170} />
+          <Logo t={t} at={42.4} size={170} />
+        </div>
         <div style={{ fontSize: 70, fontWeight: 700, marginTop: 40, opacity: Math.min(1, pop(43.32) * 1.5), transform: `translateY(${(1 - pop(43.32)) * 40}px)` }}>
           Belajar lebih cerdas,
         </div>
@@ -1488,6 +1511,57 @@ const Penutup: React.FC = () => {
   );
 };
 
+/* ---------------- efek suara (public/sfx) ---------------- */
+const SFX_DUR: Record<string, number> = {
+  klik: 0.36, whoosh: 0.98, benar: 0.79, dikuasai: 1.32, salah: 0.6, impact: 2.11,
+  kilau: 2.06, scan: 1.1, kertas: 2.21, "ketik-a": 0.99, "ketik-b": 1.88,
+};
+// f = nama file, at = detik mulai, v = volume (0-1)
+const SFX: { f: string; at: number; v: number }[] = [
+  { f: "salah", at: 2.9, v: 0.4 },
+  { f: "kertas", at: 4.18, v: 0.6 },
+  { f: "kertas", at: 5.43, v: 0.6 },
+  { f: "kertas", at: 6.73, v: 0.5 },
+  { f: "impact", at: 6.9, v: 0.85 },
+  { f: "whoosh", at: 7.85, v: 0.6 },
+  { f: "impact", at: 8.86, v: 0.7 },
+  { f: "whoosh", at: 9.8, v: 0.4 },
+  { f: "whoosh", at: 12.5, v: 0.6 },
+  { f: "klik", at: 13.5, v: 0.8 },
+  { f: "salah", at: 13.62, v: 0.7 },
+  { f: "whoosh", at: 14.5, v: 0.45 },
+  { f: "klik", at: 15.8, v: 0.8 },
+  { f: "benar", at: 15.92, v: 0.8 },
+  { f: "dikuasai", at: 18.0, v: 0.9 },
+  { f: "whoosh", at: 19.33, v: 0.6 },
+  { f: "klik", at: 20.9, v: 0.8 },
+  { f: "whoosh", at: 21.42, v: 0.35 },
+  { f: "benar", at: 23.45, v: 0.8 },
+  { f: "whoosh", at: 24.3, v: 0.6 },
+  { f: "klik", at: 26.18, v: 0.8 },
+  { f: "ketik-a", at: 26.3, v: 0.7 },
+  { f: "benar", at: 27.05, v: 0.5 },
+  { f: "scan", at: 27.4, v: 0.8 },
+  { f: "benar", at: 28.15, v: 0.5 },
+  { f: "kilau", at: 28.45, v: 0.6 },
+  { f: "ketik-b", at: 28.6, v: 0.7 },
+  { f: "whoosh", at: 30.7, v: 0.6 },
+  { f: "klik", at: 31.6, v: 0.8 },
+  { f: "kilau", at: 31.7, v: 0.6 },
+  { f: "klik", at: 32.5, v: 0.8 },
+  { f: "kilau", at: 32.6, v: 0.7 },
+  { f: "whoosh", at: 33.3, v: 0.5 },
+  { f: "kilau", at: 34.8, v: 0.4 },
+  { f: "whoosh", at: 36.38, v: 0.6 },
+  { f: "klik", at: 37.99, v: 0.6 },
+  { f: "klik", at: 38.84, v: 0.6 },
+  { f: "klik", at: 40.4, v: 0.6 },
+  { f: "whoosh", at: 42.15, v: 0.6 },
+  { f: "impact", at: 42.36, v: 0.6 },
+  { f: "klik", at: 46.05, v: 0.8 },
+  { f: "kilau", at: 46.1, v: 0.5 },
+];
+
 export const MyComposition = () => {
   return (
     <Composition
@@ -1507,6 +1581,16 @@ export const MyComponent: React.FC<Props> = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       <Audio src={staticFile("vo.mp3")} />
+      {SFX.map((x, i) => (
+        <Sequence
+          key={i}
+          layout="none"
+          from={Math.round(x.at * FPS)}
+          durationInFrames={Math.ceil((SFX_DUR[x.f] + 0.1) * FPS)}
+        >
+          <Audio src={staticFile(`sfx/${x.f}.mp3`)} volume={x.v} />
+        </Sequence>
+      ))}
       <Adegan mulai={0} selesai={3.95}><Hook /></Adegan>
       <Adegan mulai={3.95} selesai={7.9}><Masalah /></Adegan>
       <Adegan mulai={7.9} selesai={12.55}><Brand /></Adegan>
